@@ -3,6 +3,10 @@ import { CreateMutant } from './dto/create.dto';
 import { UpdateMutant } from './dto/update.dto';
 import { Mutant } from './interfaces/Marvel.interface';
 import { Pool } from 'pg';
+import {
+  validateCreateMutant,
+  validateUpdateMutant,
+} from 'src/utils/validator.util';
 
 @Injectable()
 export class MarvelService {
@@ -41,9 +45,13 @@ export class MarvelService {
   //  @method POST request
   //  @desc create new mutant
   async create(createMutantDto: CreateMutant): Promise<CreateMutant> {
-    const { name, status, gender, age, accomplices, enemies } = createMutantDto;
+    const { error, value } = validateCreateMutant(createMutantDto);
+    if (error) {
+      return error.message;
+    }
+    const { name, status, gender, age, accomplices, enemies } = value;
     const query = `
-          INSERT INTO marvel_entity(name, status, gender, age, friends, foes) 
+          INSERT INTO marvel_entity(name, status, gender, age, accomplices, enemies) 
           VALUES ($1, $2, $3, $4, $5, $6) ON CONFLICT (name) DO NOTHING
           RETURNING *
       `;
@@ -62,7 +70,12 @@ export class MarvelService {
   //  @method PUT request
   //  @desc update mutant details with a given id
   async update(updateMutantDto: UpdateMutant, id: string): Promise<Mutant> {
-    const { name, status, gender, age, accomplices, enemies } = updateMutantDto;
+    const { error, value } = validateUpdateMutant(updateMutantDto);
+    if (error) {
+      return error.message;
+    }
+    const { name, status, gender, age, accomplices, enemies, updated_at } =
+      value;
     //check if mutant already exists and pre-populate the properties that weren't updated
     const result = await this.pool.query(
       `SELECT * FROM marvel_entity WHERE id = $1`,
@@ -71,17 +84,18 @@ export class MarvelService {
     const [mutant] = result.rows;
     const query = `
           UPDATE marvel_entity SET 
-          name = $1, status = $2, gender = $3, age = $4, friends = $5, foes = $6, updated_at = $7 
+          name = $1, status = $2, gender = $3, age = $4, accomplices = $5, enemies = $6, updated_at = $7 
           WHERE id = $8
           RETURNING *
       `;
     const { rows } = await this.pool.query(query, [
-      name ?? mutant.name,
-      status ?? mutant.status,
-      gender ?? mutant.gender,
-      age ?? mutant.age,
-      accomplices ?? mutant.friends,
-      enemies ?? mutant.foes,
+      name ?? mutant?.name,
+      status ?? mutant?.status,
+      gender ?? mutant?.gender,
+      age ?? mutant?.age,
+      accomplices ?? mutant?.accomplices,
+      enemies ?? mutant?.enemies,
+      updated_at,
       id,
     ]);
     return rows[0];
