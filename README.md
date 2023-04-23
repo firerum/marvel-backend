@@ -20,34 +20,40 @@
 
 # Usage
 
-Create a Marvel character
+## Create a Marvel character
 
 - Send a POST request to /marvel with a JSON payload containing the data.
-  {
-    "name": "spider-man",
-    "status": "true",
-    "age": "21",
-    "gender": "male",
-    "accomplices": ["iron-man", "captain-america"],
-    "enemies": ["thanos"]
-  }
 
-- Get all marvel characters
+```json
+{
+  "name": "spider-man",
+  "status": "true",
+  "age": "21",
+  "gender": "male",
+  "accomplices": ["iron-man", "captain-america"],
+  "enemies": ["thanos"]
+}
+```
 
-* Send a GET request to /marvel. This will return an array list of all marvel characters.
+## Get all marvel characters
 
-- Get a specific marvel character
+- Send a GET request to `/marvel`. This will return an array list of all marvel characters.
 
-* Send a GET request to /marvel/{id}, where {id} is the ID of the marvel character you want to retrieve.
+## Get a specific marvel character
 
-- Update a marvel character
+- Send a GET request to `/marvel/{id}`, where {id} is the ID of the marvel character you want to retrieve.
 
-* Send a PUT request to /marvel/{id}, where {id} is the ID of the marvel character you want to update.\* Include a JSON payload containing the updated user data.
-  {
-    "age": "21",
-    "accomplices": ["iron-man", "captain-america"],
-  }
+## Update a marvel character
 
-- Delete a user
+- Send a PUT request to `/marvel/{id}`, where {id} is the ID of the marvel character you want to update.\* Include a JSON payload containing the updated user data.
 
-* Send a DELETE request to /marvel/{id}, where {id} is the ID of the marvel character you want to delete.
+```json
+{
+  "age": "21",
+  "accomplices": ["iron-man", "captain-america"]
+}
+```
+
+## Delete a marvel character
+
+- Send a DELETE request to `/marvel/{id}`, where {id} is the ID of the marvel character you want to delete.
