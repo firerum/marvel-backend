@@ -28,21 +28,29 @@ export class MarvelEntity {
   })
   age: number;
 
+  // @Column({
+  //   nullable: true,
+  //   type: 'text',
+  //   array: true,
+  //   default: [],
+  // })
   @Column({
-    nullable: false,
-    type: 'text',
-    array: true,
-    default: [],
+    nullable: true,
   })
-  accomplices: string[];
+  @Generated('uuid')
+  accomplices: string;
 
+  // @Column({
+  //   nullable: true,
+  //   type: 'text',
+  //   array: true,
+  //   default: [],
+  // })
   @Column({
-    nullable: false,
-    type: 'text',
-    array: true,
-    default: [],
+    nullable: true,
   })
-  enemies: string[];
+  @Generated('uuid')
+  enemies: string;
 
   @Column({
     type: 'timestamptz',

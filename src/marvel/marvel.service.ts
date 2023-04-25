@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateMutant } from './dto/create.dto';
 import { UpdateMutant } from './dto/update.dto';
-import { Mutant } from './interfaces/Marvel.interface';
+import { Mutant, Gender } from './interfaces/Marvel.interface';
 import { Pool } from 'pg';
 import {
   validateCreateMutant,
