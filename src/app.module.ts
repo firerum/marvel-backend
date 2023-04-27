@@ -7,6 +7,7 @@ import { MarvelModule } from './marvel/marvel.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MarvelEntity } from './marvel/entity/marvel.entity';
+import { AccompliceEntity } from './marvel/entity/accomplice.entity';
 
 @Module({
   imports: [
@@ -21,7 +22,7 @@ import { MarvelEntity } from './marvel/entity/marvel.entity';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [MarvelEntity],
+        entities: [MarvelEntity, AccompliceEntity],
         synchronize: true,
       }),
       inject: [ConfigService],

@@ -1,4 +1,12 @@
-import { Column, Entity, PrimaryGeneratedColumn, Generated } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  Generated,
+  OneToMany,
+  JoinColumn,
+} from 'typeorm';
+import { AccompliceEntity } from './accomplice.entity';
 
 @Entity()
 export class MarvelEntity {
@@ -34,11 +42,22 @@ export class MarvelEntity {
   //   array: true,
   //   default: [],
   // })
-  @Column({
-    nullable: true,
-  })
-  @Generated('uuid')
-  accomplices: string;
+  // @Column({
+  //   nullable: true,
+  //   type: 'AccompliceEntity',
+  //   array: true,
+  //   default: [],
+  // })
+  // @Generated('uuid')
+  @OneToMany(() => AccompliceEntity, (accomplices) => accomplices.marvel)
+  @JoinColumn()
+  accomplices: AccompliceEntity[];
+  addAcc(acc: AccompliceEntity) {
+    if (this.accomplices === null) {
+      this.accomplices = new Array<AccompliceEntity>();
+    }
+    this.accomplices.push(acc);
+  }
 
   // @Column({
   //   nullable: true,

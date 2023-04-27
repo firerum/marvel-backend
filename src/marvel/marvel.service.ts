@@ -7,6 +7,7 @@ import {
   validateCreateMutant,
   validateUpdateMutant,
 } from 'src/utils/validator.util';
+import { Accomplice } from './dto/accomplice.dto';
 
 @Injectable()
 export class MarvelService {
@@ -97,6 +98,23 @@ export class MarvelService {
       enemies ?? mutant?.enemies,
       updated_at,
       id,
+    ]);
+    return rows[0];
+  }
+
+  async updateAccomplice(
+    updateAccdto: Accomplice,
+    id: string,
+  ): Promise<Mutant> {
+    const query = `
+      INSERT INTO accomplice_entity(name, mutant_id)
+      VALUES($1, $2)
+      RETURNING *
+    `;
+
+    const { rows } = await this.pool.query(query, [
+      updateAccdto.name,
+      (updateAccdto.mutant_id = id),
     ]);
     return rows[0];
   }
